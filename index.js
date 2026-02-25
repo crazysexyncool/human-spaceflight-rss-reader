@@ -137,7 +137,7 @@ app.get('/', async function(req, res) {
   html += '.date{color:#666;font-size:0.9em}';
   html += '.errors{background:#fff3cd;padding:10px;border-radius:5px;margin:10px 0}';
   html += '</style></head><body>';
-  html += '<h1>Latest Space Articles</h1>';
+  html += '<h1>Latest Human Spaceflight Articles</h1>';
   html += '<p>Found ' + allItems.length + ' articles | Updated: ' + new Date().toLocaleString() + '</p>';
 
   if (errors.length > 0) {

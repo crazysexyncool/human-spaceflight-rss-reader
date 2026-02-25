@@ -47,26 +47,31 @@ function formatDate(dateString) {
 
 // Extract items from different RSS/Atom feed formats
 function extractItems(result) {
-  // Standard RSS 2.0
-  if (result.rss && result.rss.channel && result.rss.channel<a href="" class="citation-link" target="_blank" style="vertical-align: super; font-size: 0.8em; margin-left: 3px;">[0]</a> && result.rss.channel<a href="" class="citation-link" target="_blank" style="vertical-align: super; font-size: 0.8em; margin-left: 3px;">[0]</a>.item) {
+  if (
+    result.rss &&
+    result.rss.channel &&
+    result.rss.channel<a href="" class="citation-link" target="_blank" style="vertical-align: super; font-size: 0.8em; margin-left: 3px;">[0]</a> &&
+    result.rss.channel<a href="" class="citation-link" target="_blank" style="vertical-align: super; font-size: 0.8em; margin-left: 3px;">[0]</a>.item
+  ) {
     return result.rss.channel<a href="" class="citation-link" target="_blank" style="vertical-align: super; font-size: 0.8em; margin-left: 3px;">[0]</a>.item;
   }
-  // RDF format (some older feeds)
   if (result['rdf:RDF'] && result['rdf:RDF'].item) {
     return result['rdf:RDF'].item;
   }
-  // Atom format
   if (result.feed && result.feed.entry) {
-    return result.feed.entry.map(entry => ({
-      title: entry.title,
-      link: entry.link ? [entry.link<a href="" class="citation-link" target="_blank" style="vertical-align: super; font-size: 0.8em; margin-left: 3px;">[0]</a>.$.href || entry.link<a href="" class="citation-link" target="_blank" style="vertical-align: super; font-size: 0.8em; margin-left: 3px;">[0]</a>] : [''],
-      description: entry.summary || entry.content || [''],
-      pubDate: entry.published || entry.updated || [''],
-      category: entry.category ? [entry.category<a href="" class="citation-link" target="_blank" style="vertical-align: super; font-size: 0.8em; margin-left: 3px;">[0]</a>.$.term || entry.category<a href="" class="citation-link" target="_blank" style="vertical-align: super; font-size: 0.8em; margin-left: 3px;">[0]</a>] : ['']
-    }));
+    return result.feed.entry.map(function(entry) {
+      return {
+        title: entry.title,
+        link: entry.link ? [entry.link<a href="" class="citation-link" target="_blank" style="vertical-align: super; font-size: 0.8em; margin-left: 3px;">[0]</a>.$.href || entry.link<a href="" class="citation-link" target="_blank" style="vertical-align: super; font-size: 0.8em; margin-left: 3px;">[0]</a>] : [''],
+        description: entry.summary || entry.content || [''],
+        pubDate: entry.published || entry.updated || [''],
+        category: entry.category ? [entry.category<a href="" class="citation-link" target="_blank" style="vertical-align: super; font-size: 0.8em; margin-left: 3px;">[0]</a>.$.term || entry.category<a href="" class="citation-link" target="_blank" style="vertical-align: super; font-size: 0.8em; margin-left: 3px;">[0]</a>] : ['']
+      };
+    });
   }
   return null;
 }
+
 
 app.get('/', async (req, res) => {
   const allFilteredItems = [];
